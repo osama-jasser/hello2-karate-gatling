@@ -11,7 +11,7 @@ class HelloKarateSimulation extends Simulation {
   val protocol = karateProtocol()
   protocol.nameResolver = (req, ctx) => req.getHeader("com.progressoft.karate-name")
 
-  val numberOfUsers=5
+  val numberOfUsers=50
   val duration=5
 
   var features=FileUtil.listFeatures()

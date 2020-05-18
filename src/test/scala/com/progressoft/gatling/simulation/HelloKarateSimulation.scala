@@ -11,14 +11,21 @@ class HelloKarateSimulation extends Simulation {
   val protocol = karateProtocol()
   protocol.nameResolver = (req, ctx) => req.getHeader("com.progressoft.karate-name")
 
-  setUp(
+  val numberOfUsers=5
+  val duration=5
 
+  var features=FileUtil.listFeatures()
+  def scnList() = {
+    var scnList = new ArraySeq[PopulationBuilder](features.length)
+    var i=0
+    for (feature <-  features) {
+      var scen = scenario(feature.toString).exec(karateFeature("classpath:"+feature))
+          .inject(rampUsers(numberOfUsers) during (duration.toInt))
+      scnList(i) = scen
+      i=i+1
+    }
+    scnList
+  }
 
-    scenario("f1").exec(
-          karateFeature("classpath:java/com/progressoft/karate/hello/hello2.feature")
-            )
-    .inject(rampUsers(10) during (1))
-
-  )
-    .protocols(protocol)
+  setUp(scnList: _*).protocols(protocol)
 }

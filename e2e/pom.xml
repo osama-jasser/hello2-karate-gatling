@@ -16,6 +16,13 @@
         <gatling.plugin.version>3.0.2</gatling.plugin.version>
         <maven.compiler.version>3.6.0</maven.compiler.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <scala.version>2.12.10</scala.version>
+        <encoding>UTF-8</encoding>
+        <gatling.version>3.3.1</gatling.version>
+        <scala-maven-plugin.version>4.3.1</scala-maven-plugin.version>
+        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+        <gatling-maven-plugin.version>3.0.5</gatling-maven-plugin.version>
+        <frontline-maven-plugin.version>1.0.3</frontline-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -47,41 +54,65 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.8.1</version>
         </dependency>
+        <dependency>
+            <groupId>io.gatling.highcharts</groupId>
+            <artifactId>gatling-charts-highcharts</artifactId>
+            <version>${gatling.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
-        <testResources>
-            <testResource>
-                <directory>src/test/java</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </testResource>
-        </testResources>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.version}</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <compilerArgument>-Werror</compilerArgument>
-                </configuration>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
             </plugin>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>${scala-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <recompileMode>all</recompileMode>
+                            <jvmArgs>
+                                <jvmArg>-Xss100M</jvmArg>
+                            </jvmArgs>
+                            <args>
+                                <arg>-target:jvm-1.8</arg>
+                                <arg>-deprecation</arg>
+                                <arg>-feature</arg>
+                                <arg>-unchecked</arg>
+                                <arg>-language:implicitConversions</arg>
+                                <arg>-language:postfixOps</arg>
+                            </args>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>io.gatling.frontline</groupId>
+                <artifactId>frontline-maven-plugin</artifactId>
+                <version>${frontline-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>io.gatling</groupId>
                 <artifactId>gatling-maven-plugin</artifactId>
-                <version>${gatling.plugin.version}</version>
-                <configuration>
-                    <detail>true</detail>
-                    <simulationsFolder>src/test/scala</simulationsFolder>
-                    <runMultipleSimulations>true</runMultipleSimulations>
-                    <includes>
-                        <include>com.progressoft.gatling.simulation.HelloKarateSimulation</include>
-                    </includes>
-                </configuration>
+                <version>${gatling-maven-plugin.version}</version>
             </plugin>
         </plugins>
     </build>

@@ -14,18 +14,9 @@ class HelloKarateSimulation extends Simulation {
   val numberOfUsers=5
   val duration=5
 
-  var features=FileUtil.listFeatures()
-  def scnList() = {
-    var scnList = new ArraySeq[PopulationBuilder](features.length)
-    var i=0
-    for (feature <-  features) {
-      var scen = scenario(feature.toString).exec(karateFeature("classpath:"+feature))
-          .inject(rampUsers(numberOfUsers) during (duration.toInt))
-      scnList(i) = scen
-      i=i+1
-    }
-    scnList
-  }
 
-  setUp(scnList: _*).protocols(protocol)
+
+  setUp(scenario("f1").exec(karateFeature("classpath:com/progressoft/karate/hello/hello2.feature"))
+    .inject(rampUsers(numberOfUsers) during (duration.toInt))
+  ).protocols(protocol)
 }

@@ -20,7 +20,7 @@ public class FileUtil {
         );
 
         Set<String> properties =
-                reflections.getResources(Pattern.compile(System.getenv("FEATURE_REGEX")));
+                reflections.getResources(Pattern.compile(".*(hello1|hello2)\\.feature"));
         return properties.toArray();
     }
 

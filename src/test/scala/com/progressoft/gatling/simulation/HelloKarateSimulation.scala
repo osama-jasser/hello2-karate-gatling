@@ -16,7 +16,7 @@ class HelloKarateSimulation extends Simulation {
 
 
 
-  setUp(scenario("f1").exec(karateFeature("classpath:com/progressoft/karate/hello/hello2.feature"))
+  setUp(scenario("f1").exec(karateFeature("classpath:java/com/progressoft/karate/hello/hello2.feature"))
     .inject(rampUsers(10) during (1))
   ).protocols(protocol)
 }

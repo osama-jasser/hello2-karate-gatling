@@ -1,7 +1,7 @@
 Feature: Hello Again
 
   Background:
-    Given url baseUrl
+    Given url 'http://computer-database.gatling.io'
     Given path '/computers'
 
   Scenario: Hello Peter

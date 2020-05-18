@@ -64,6 +64,14 @@
 
     <build>
         <testSourceDirectory>src/test</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>

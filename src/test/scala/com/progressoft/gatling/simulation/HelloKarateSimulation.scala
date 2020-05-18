@@ -11,12 +11,14 @@ class HelloKarateSimulation extends Simulation {
   val protocol = karateProtocol()
   protocol.nameResolver = (req, ctx) => req.getHeader("com.progressoft.karate-name")
 
-  val numberOfUsers=10
-  val duration=1
+  setUp(
 
 
-
-  setUp(scenario("f1").exec(karateFeature("classpath:java/com/progressoft/karate/hello/hello2.feature"))
+    scenario("f1").exec(
+          karateFeature("classpath:java/com/progressoft/karate/hello/hello2.feature")
+            )
     .inject(rampUsers(10) during (1))
-  ).protocols(protocol)
+
+  )
+    .protocols(protocol)
 }
